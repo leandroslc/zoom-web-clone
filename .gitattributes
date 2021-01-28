@@ -4,6 +4,7 @@
 *.woff2 binary
 *.ttf binary
 *.pem binary
+*.ico binary
 
 *.js linguist-detectable=true
 *.html linguist-detectable=false
