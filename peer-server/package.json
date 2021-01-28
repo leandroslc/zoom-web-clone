@@ -1,0 +1,19 @@
+{
+  "name": "@zoom-clone/peer-server",
+  "version": "1.0.0",
+  "description": "Peer server",
+  "author": "Leandro Silva Luz do Carmo",
+  "license": "MIT",
+  "private": true,
+  "main": "index.js",
+  "scripts": {
+    "start": "cross-env-shell PORT=9000 npm run serve",
+    "serve": "cross-env-shell npx peerjs --port $PORT --key peerjs --path / --sslcert ../cert/cert.pem --sslkey ../cert/key.pem"
+  },
+  "dependencies": {
+    "peer": "^0.6.1"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3"
+  }
+}

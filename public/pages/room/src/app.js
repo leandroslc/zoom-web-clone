@@ -1,4 +1,5 @@
 /// <reference path="socket-builder.js" />
+/// <reference path="peer-builder.js" />
 /// <reference path="media.js" />
 /// <reference path="view.js" />
 /// <reference path="business.js" />
@@ -32,6 +33,15 @@ async function main() {
   const socketUrl = manifestData.serverUrl;
   const socketBuilder = new SocketBuilder({ socketUrl });
 
+  const peerBuilder = new PeerBuilder({
+    id: undefined,
+    peerConfig: {
+      host: manifestData.peerServer.host,
+      port: manifestData.peerServer.port,
+      path: '/',
+    },
+  });
+
   const view = new View();
   const media = new Media();
 
@@ -40,6 +50,7 @@ async function main() {
     view,
     room,
     socketBuilder,
+    peerBuilder,
   });
 }
 

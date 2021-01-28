@@ -33,16 +33,19 @@ class View {
    * @param {MediaProvider} o.stream
    * @param {string} o.url
    * @param {boolean} o.isCurrentUserId
+   * @param {boolean} o.muted
    */
   renderVideo({
     userId,
     stream = null,
     url = null,
     isCurrentUserId = false,
+    muted = true,
   }) {
     const video = this.createVideoElement({
       src: url,
       srcObject: stream,
+      muted,
     });
 
     this.appendToHTMLTree({
@@ -74,5 +77,15 @@ class View {
 
     const videoGridElement = document.getElementById('video-grid');
     videoGridElement.append(wrapperElement);
+  }
+
+  /**
+   * @param {number} count
+   */
+  setParticipants(count) {
+    const participantsElement = document.getElementById('participants');
+    const currentUser = 1;
+
+    participantsElement.innerHTML = count + currentUser;
   }
 }
