@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zoom Clone - Home</title>
+
+  <link href="./lib/material-icons/material-icons.css" rel="stylesheet" />
+  <link rel="stylesheet" href="./lib/font-awesome/all.min.css" />
+  <link rel="stylesheet" href="./css/index.css" />
+
+  <script src="./src/index.js"></script>
+</head>
+<body>
+  <div class="grid-padre-navbar-top">
+    <div class="center-navbar-top">
+      <div class="grid-navegacion-top-icons">
+        <button class="mr-icons">
+          <div class="img-center">
+            <span class="material-icons md-blue">
+              home
+            </span>
+          </div>
+          <p class="title-navegacion-active"> Home</p>
+        </button>
+        <!-- <button class="mr-icons" disabled>
+          <div class="img-center">
+            <span class="material-icons md-gray">
+              chat_bubble
+            </span>
+          </div>
+          <p class="title-navegacion">Chat</p>
+        </button> -->
+        <!-- <button class="mr-icons" disabled>
+          <div class="img-center">
+            <span class="material-icons md-gray">
+              access_time
+            </span>
+          </div>
+          <p class="title-navegacion">Meetings</p>
+        </button> -->
+        <!-- <button class="mr-icons" disabled>
+          <div class="img-center">
+            <span class="material-icons md-gray">
+              portrait
+            </span>
+          </div>
+          <p class="title-navegacion">Contacts</p>
+        </button> -->
+      </div>
+    </div>
+
+    <div class="end-bar-navegacion-top" style="margin-top: 0px;">
+      <br />
+      <div class="input-group-login sombreado-input">
+        <div class="input-group-prepend-login">
+          <span class="input-group-text fondo-icon">
+            <span class="material-icons">
+              search
+            </span>
+          </span>
+        </div>
+        <input
+          type="text"
+          class="border-0-login form-control-login input-border-none"
+          placeholder="Search"
+          aria-label="Username"
+        />
+      </div>
+
+      <button class="box-user">E</button>
+    </div>
+  </div>
+
+  <div class="box-zoom">
+    <div class="grid-zoom">
+      <div class="grid-icons" style="margin-top: 190px;">
+        <button id="new-meeting" class="box-video" style="background-color: #FF742E;" >
+          <div class="img-center">
+            <span class="material-icons md-55">
+              videocam
+            </span>
+          </div>
+          <br><br>
+          <p align="center" class="icon-title">New Meeting</p>
+        </button>
+        <button id="join" class="box-video" style="background-color: #0E71EB;">
+          <div class="img-center">
+            <span class="material-icons md-55">
+              add_box
+            </span>
+          </div>
+          <br><br>
+          <p align="center" class="icon-title">Join</p>
+        </button>
+        <!-- <button class="box-video" style="background-color: #c6c6c6; margin-top: 50px;" disabled>
+          <div class="img-center">
+            <i class="fas fa-calendar material-icons md-55"></i>
+          </div>
+          <br><br>
+          <p align="center" class="icon-title text-muted">Schedule</p>
+        </button> -->
+        <!-- <button class="box-video" style="background-color: #c6c6c6; margin-top: 50px;" disabled>
+          <div class="img-center">
+            <span class="material-icons md-55">
+              screen_share
+            </span>
+          </div>
+          <br><br>
+          <p align="center" class="icon-title text-muted">Share Screen</p>
+        </button> -->
+      </div>
+
+      <div class="card-time" style="margin-top: 100px;">
+        <div class="box-time">
+          <br><br>
+          <p>
+            <p class="title-clock">15:18</p>
+            <span class="title-date">Friday, August 21 , 2020</span>
+          </p>
+          <br>
+        </div>
+        <div class="box-time-white">
+          <br><br><br><br><br><br>
+          <p align="center">
+            <span>
+              No upcoming meetings today
+            </span>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="navbar-zoom fixed-bottom grid-navigation">
+      <button>
+        <div class="img-center">
+          <span class="material-icons md-blue">
+            home
+          </span>
+        </div>
+        <p class="title-navegacion-active"> Home</p>
+      </button>
+      <!-- <button disabled>
+        <div class="img-center">
+          <span class="material-icons md-gray">
+            chat_bubble
+          </span>
+        </div>
+        <p class="title-navegacion">Chat</p>
+      </button> -->
+      <!-- <button disabled>
+        <div class="img-center">
+          <span class="material-icons md-gray">
+            access_time
+          </span>
+        </div>
+        <p class="title-navegacion">Meetings</p>
+      </button> -->
+      <!-- <button disabled>
+        <div class="img-center">
+          <span class="material-icons md-gray">
+            portrait
+          </span>
+        </div>
+        <p class="title-navegacion">Contacts</p>
+      </button> -->
+    </div>
+  </div>
+</body>
+</html>

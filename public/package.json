@@ -1,0 +1,15 @@
+{
+  "name": "@zoom-clone/public",
+  "version": "1.0.0",
+  "description": "Zoom clone web server",
+  "author": "Leandro Silva Luz do Carmo",
+  "license": "MIT",
+  "private": true,
+  "main": "app.js",
+  "scripts": {
+    "start": "npx http-server . --cors -o --ssl --cert ../cert/cert.pem --key ../cert/key.pem"
+  },
+  "dependencies": {
+    "http-server": "0.12.3"
+  }
+}

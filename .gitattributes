@@ -1,0 +1,10 @@
+* text=auto
+* eol=lf
+
+*.woff2 binary
+*.ttf binary
+*.pem binary
+
+*.js linguist-detectable=true
+*.html linguist-detectable=false
+*.css linguist-detectable=false

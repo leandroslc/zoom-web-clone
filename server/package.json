@@ -1,0 +1,18 @@
+{
+  "name": "@zoom-clone/server",
+  "version": "1.0.0",
+  "description": "Zoom clone server",
+  "author": "Leandro Silva Luz do Carmo",
+  "license": "MIT",
+  "private": true,
+  "main": "index.js",
+  "scripts": {
+    "start": "npx nodemon index.js"
+  },
+  "dependencies": {
+    "socket.io": "^3.0.5"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
+}
