@@ -7,8 +7,8 @@
   "private": true,
   "main": "index.js",
   "scripts": {
-    "start": "cross-env-shell PORT=9000 npm run serve",
-    "serve": "cross-env-shell npx peerjs --port $PORT --key peerjs --path / --sslcert ../cert/cert.pem --sslkey ../cert/key.pem"
+    "start": "cross-env-shell PORT=9000 npm run serve -- --sslcert ../cert/cert.pem --sslkey ../cert/key.pem",
+    "serve": "cross-env-shell npx peerjs --port $PORT --key peerjs --path /"
   },
   "dependencies": {
     "peer": "^0.6.1"
