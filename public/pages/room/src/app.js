@@ -39,6 +39,7 @@ async function main() {
       host: manifestData.peerServer.host,
       port: manifestData.peerServer.port,
       path: '/',
+      secure: true,
     },
   });
 

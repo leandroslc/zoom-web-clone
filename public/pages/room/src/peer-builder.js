@@ -3,6 +3,7 @@
  * @property {string|number} port
  * @property {string} host
  * @property {string} path
+ * @property {boolean} secure
  */
 
 class PeerBuilder {
