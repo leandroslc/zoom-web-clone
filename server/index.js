@@ -1,7 +1,24 @@
-const http = require('http');
+const fs = require('fs');
+const https = require('https');
 const socketIO = require('socket.io');
 
-const server = http.createServer((_request, response) => {
+sslCertFile = process.env.SSL_CERT_FILE;
+sslKeyFile = process.env.SSL_KET_FILE;
+
+/**
+ * @type {https.ServerOptions}
+ */
+const serverOptions = {};
+
+if (sslCertFile) {
+  serverOptions.cert = fs.readFileSync(sslCertFile);
+}
+
+if (sslKeyFile) {
+  serverOptions.key = fs.readFileSync(sslKeyFile);
+}
+
+const server = https.createServer(serverOptions, (_request, response) => {
   response.writeHead(204, {
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Methods': 'OPTIONS, POST, GET',
@@ -15,7 +32,7 @@ const io = new socketIO.Server(server, {
     origin: '*',
     credentials: false,
   },
-})
+});
 
 /**
  * @param {socketIO.Socket} socket
