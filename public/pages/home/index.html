@@ -9,6 +9,8 @@
   <link rel="stylesheet" href="./lib/font-awesome/all.min.css" />
   <link rel="stylesheet" href="./css/index.css" />
 
+  <script src="./src/date-time.js"></script>
+  <script src="./src/view.js"></script>
   <script src="./src/index.js"></script>
 </head>
 <body>
@@ -23,58 +25,17 @@
           </div>
           <p class="title-navegacion-active"> Home</p>
         </button>
-        <!-- <button class="mr-icons" disabled>
-          <div class="img-center">
-            <span class="material-icons md-gray">
-              chat_bubble
-            </span>
-          </div>
-          <p class="title-navegacion">Chat</p>
-        </button> -->
-        <!-- <button class="mr-icons" disabled>
-          <div class="img-center">
-            <span class="material-icons md-gray">
-              access_time
-            </span>
-          </div>
-          <p class="title-navegacion">Meetings</p>
-        </button> -->
-        <!-- <button class="mr-icons" disabled>
-          <div class="img-center">
-            <span class="material-icons md-gray">
-              portrait
-            </span>
-          </div>
-          <p class="title-navegacion">Contacts</p>
-        </button> -->
       </div>
     </div>
 
     <div class="end-bar-navegacion-top" style="margin-top: 0px;">
-      <br />
-      <div class="input-group-login sombreado-input">
-        <div class="input-group-prepend-login">
-          <span class="input-group-text fondo-icon">
-            <span class="material-icons">
-              search
-            </span>
-          </span>
-        </div>
-        <input
-          type="text"
-          class="border-0-login form-control-login input-border-none"
-          placeholder="Search"
-          aria-label="Username"
-        />
-      </div>
-
-      <button class="box-user">E</button>
+      <button class="box-user">Anonymous</button>
     </div>
   </div>
 
   <div class="box-zoom">
     <div class="grid-zoom">
-      <div class="grid-icons" style="margin-top: 190px;">
+      <div class="grid-icons" style="margin-top: 120px;">
         <button id="new-meeting" class="box-video" style="background-color: #FF742E;" >
           <div class="img-center">
             <span class="material-icons md-55">
@@ -93,38 +54,26 @@
           <br><br>
           <p align="center" class="icon-title">Join</p>
         </button>
-        <!-- <button class="box-video" style="background-color: #c6c6c6; margin-top: 50px;" disabled>
-          <div class="img-center">
-            <i class="fas fa-calendar material-icons md-55"></i>
-          </div>
-          <br><br>
-          <p align="center" class="icon-title text-muted">Schedule</p>
-        </button> -->
-        <!-- <button class="box-video" style="background-color: #c6c6c6; margin-top: 50px;" disabled>
-          <div class="img-center">
-            <span class="material-icons md-55">
-              screen_share
-            </span>
-          </div>
-          <br><br>
-          <p align="center" class="icon-title text-muted">Share Screen</p>
-        </button> -->
       </div>
 
       <div class="card-time" style="margin-top: 100px;">
         <div class="box-time">
           <br><br>
           <p>
-            <p class="title-clock">15:18</p>
-            <span class="title-date">Friday, August 21 , 2020</span>
+            <p class="title-clock">
+              <span id="title-clock-hour">00</span>
+              <span class="title-clock-caret">:</span>
+              <span id="title-clock-minute">00</span>
+            </p>
+            <span class="title-date" id="title-clock-date">Initializing..</span>
           </p>
           <br>
         </div>
-        <div class="box-time-white">
+        <div class="box-time-white" id="recent-meetings">
           <br><br><br><br><br><br>
           <p align="center">
             <span>
-              No upcoming meetings today
+              No recent meetings
             </span>
           </p>
         </div>
@@ -140,30 +89,6 @@
         </div>
         <p class="title-navegacion-active"> Home</p>
       </button>
-      <!-- <button disabled>
-        <div class="img-center">
-          <span class="material-icons md-gray">
-            chat_bubble
-          </span>
-        </div>
-        <p class="title-navegacion">Chat</p>
-      </button> -->
-      <!-- <button disabled>
-        <div class="img-center">
-          <span class="material-icons md-gray">
-            access_time
-          </span>
-        </div>
-        <p class="title-navegacion">Meetings</p>
-      </button> -->
-      <!-- <button disabled>
-        <div class="img-center">
-          <span class="material-icons md-gray">
-            portrait
-          </span>
-        </div>
-        <p class="title-navegacion">Contacts</p>
-      </button> -->
     </div>
   </div>
 </body>
