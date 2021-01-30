@@ -1,5 +1,7 @@
 class View {
   constructor() {
+    this.recordingButtonElement = document.getElementById('record');
+    this.recordingEnabled = false;
   }
 
   /**
@@ -87,5 +89,41 @@ class View {
     const currentUser = 1;
 
     participantsElement.innerHTML = count + currentUser;
+  }
+
+  /**
+   * @param {string} id
+   */
+  removeVideoElement(id) {
+    const videoElement = document.getElementById(id);
+
+    videoElement.remove();
+  }
+
+  /**
+   * @param {(isEnabled: boolean) => void} command
+   */
+  configureRecordButton(command) {
+    this.recordingButtonElement.addEventListener('click', this._onRecordClick(command));
+  }
+
+  /**
+   * @param {(isEnabled: boolean) => void} command
+   */
+  _onRecordClick(command) {
+    return () => {
+      this.recordingEnabled = !this.recordingEnabled;
+
+      command(this.recordingEnabled);
+
+      this._toogleRecordingButtonColor(this.recordingEnabled);
+    };
+  }
+
+  /**
+   * @param {boolean} isRecordingEnabled
+   */
+  _toogleRecordingButtonColor(isRecordingEnabled) {
+    this.recordingButtonElement.style.color = isRecordingEnabled ? 'red' : 'white';
   }
 }

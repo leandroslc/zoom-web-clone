@@ -6,18 +6,6 @@
 
 const ManifestUrl = '/manifest.json';
 
-/**
- * @param {HTMLButtonElement} recorderBtn
- */
-const recordClick = function (recorderBtn) {
-  this.recordingEnabled = false;
-
-  return () => {
-    this.recordingEnabled = !this.recordingEnabled;
-    recorderBtn.style.color = this.recordingEnabled ? 'red' : 'white';
-  };
-}
-
 async function main() {
   const urlParams = new URLSearchParams(window.location.search);
   const room = urlParams.get('room');
@@ -26,9 +14,6 @@ async function main() {
   const manifestData = await response.json();
 
   console.log('This is the room', room);
-
-  const recorderBtn = document.getElementById('record');
-  recorderBtn.addEventListener('click', recordClick(recorderBtn));
 
   const socketUrl = manifestData.serverUrl;
   const socketBuilder = new SocketBuilder({ socketUrl });

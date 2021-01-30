@@ -34,6 +34,9 @@ class Business {
     this.socket = {};
 
     this.peers = new Map();
+    this.userRecordings = new Map();
+
+    this.recordingEnabled = false;
   }
 
   /**
@@ -48,6 +51,8 @@ class Business {
   }
 
   async _initialize() {
+    this.view.configureRecordButton(this.onRecordToggle.bind(this));
+
     this.currentStream = await this.media.getCamera();
 
     this.socket = this.socketBuilder
@@ -60,9 +65,11 @@ class Business {
       .setOnConnectionOpened(this.onPeerConnectionOpened())
       .setOnCallReceived(this.onPeerCallReceived())
       .setOnPeerStreamReceived(this.onPeerStreamReceived())
+      .setOnCallError(this.onPeerCallError())
+      .setOnCallClose(this.onPeerCallClose())
       .build();
 
-    this.addVideoSream('test01');
+    this.addVideoSream(this.currentPeer.id);
   }
 
   /**
@@ -70,6 +77,14 @@ class Business {
    * @param {MediaProvider} stream
    */
   addVideoSream(userId, stream = this.currentStream) {
+    const recorder = new Recorder(userId, stream);
+
+    this.userRecordings.set(recorder.id, recorder);
+
+    if (this.recordingEnabled) {
+      recorder.startRecording();
+    }
+
     this.view.renderVideo({
       userId,
       stream,
@@ -77,7 +92,7 @@ class Business {
     });
   }
 
-  onUserConnected = function() {
+  onUserConnected() {
     return userId => {
       console.log('User connected', userId);
 
@@ -85,19 +100,27 @@ class Business {
     };
   }
 
-  onUserDisconnected = function() {
+  onUserDisconnected() {
     return userId => {
       console.log('User disconnected', userId);
+
+      if (this.peers.has(userId)) {
+        this.peers.get(userId).call.close();
+        this.peers.delete(userId);
+      }
+
+      this.view.setParticipants(this.peers.size);
+      this.view.removeVideoElement(userId);
     };
   }
 
-  onPeerError = function () {
+  onPeerError() {
     return error => {
       console.error('Peer error', error);
     };
   }
 
-  onPeerConnectionOpened = function () {
+  onPeerConnectionOpened() {
     return peer => {
       const id = peer.id;
 
@@ -107,7 +130,7 @@ class Business {
     };
   }
 
-  onPeerCallReceived = function () {
+  onPeerCallReceived() {
     return call => {
       console.log('Call received', call);
 
@@ -115,7 +138,7 @@ class Business {
     };
   }
 
-  onPeerStreamReceived = function () {
+  onPeerStreamReceived() {
     return (call, stream) => {
       const callerId = call.peer;
 
@@ -125,5 +148,55 @@ class Business {
 
       this.view.setParticipants(this.peers.size);
     };
+  }
+
+  onPeerCallError() {
+    return (call, error) => {
+      console.error('Call error', error);
+
+      this.view.removeVideoElement(call.peer);
+    };
+  }
+
+  onPeerCallClose() {
+    return (call) => {
+      console.log('Call closed', call.peer);
+    };
+  }
+
+  /**
+   * @param {boolean} isRecordingEnabled
+   */
+  onRecordToggle(isRecordingEnabled) {
+    this.recordingEnabled = isRecordingEnabled;
+
+    console.log('Recording', isRecordingEnabled ? 'enabled' : 'disabled');
+
+    for (const [id, recorder] of this.userRecordings) {
+      if (this.recordingEnabled) {
+        recorder.startRecording();
+      } else {
+        this.stopAllRecordings(id);
+      }
+    }
+  }
+
+  /**
+   * @param {string} recordingId
+   */
+  stopAllRecordings(recordingId) {
+    for (const [id, recorder] of this.userRecordings) {
+      const isCurrentUser = id === recordingId;
+
+      if (!isCurrentUser) {
+        continue;
+      }
+
+      if (!recorder.recordingActive) {
+        continue;
+      }
+
+      recorder.stopRecording();
+    }
   }
 }
