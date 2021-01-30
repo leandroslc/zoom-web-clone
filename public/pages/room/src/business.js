@@ -111,6 +111,7 @@ class Business {
 
       this.view.setParticipants(this.peers.size);
       this.view.removeVideoElement(userId);
+      this.stopAllRecordings(userId);
     };
   }
 
@@ -182,11 +183,11 @@ class Business {
   }
 
   /**
-   * @param {string} recordingId
+   * @param {string} userOrRecordingId
    */
   stopAllRecordings(recordingId) {
     for (const [id, recorder] of this.userRecordings) {
-      const isCurrentUser = id === recordingId;
+      const isCurrentUser = id.includes(recordingId);
 
       if (!isCurrentUser) {
         continue;
