@@ -120,12 +120,14 @@ class View {
    * @param {(isEnabled: boolean) => void} command
    */
   configureRecordButton(command) {
+    this._toogleRecordingButton(this.recordingEnabled);
+
     this.recordingButtonElement.addEventListener('click', () => {
       this.recordingEnabled = !this.recordingEnabled;
 
       command(this.recordingEnabled);
 
-      this._toogleRecordingButtonColor(this.recordingEnabled);
+      this._toogleRecordingButton(this.recordingEnabled);
     });
   }
 
@@ -173,8 +175,12 @@ class View {
   /**
    * @param {boolean} isRecordingEnabled
    */
-  _toogleRecordingButtonColor(isRecordingEnabled) {
-    this.recordingButtonElement.style.color = isRecordingEnabled ? 'red' : '';
+  _toogleRecordingButton(isRecordingEnabled) {
+    const stopInfo = this.recordingButtonElement.querySelector('.stop');
+    const startInfo = this.recordingButtonElement.querySelector('.start');
+
+    stopInfo.style.display = isRecordingEnabled ? '' : 'none';
+    startInfo.style.display = isRecordingEnabled ? 'none' : '';
   }
 
   /**
