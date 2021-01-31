@@ -38,7 +38,6 @@ class View {
    * @param {MediaProvider} o.stream
    * @param {string} o.url
    * @param {boolean} o.isCurrentUserId
-   * @param {boolean} o.muted
    * @param {boolean} o.isRecording
    */
   renderVideo({
@@ -46,13 +45,12 @@ class View {
     stream = null,
     url = null,
     isCurrentUserId = false,
-    muted = true,
     isRecording = false,
   }) {
     const video = this.createVideoElement({
       src: url,
       srcObject: stream,
-      muted,
+      muted: isCurrentUserId,
     });
 
     this.appendToHTMLTree({

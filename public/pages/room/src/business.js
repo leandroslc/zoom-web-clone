@@ -100,7 +100,7 @@ class Business {
     this.view.renderVideo({
       userId,
       stream,
-      isCurrentUserId: false,
+      isCurrentUserId: userId === this.currentPeer.id,
     });
   }
 
@@ -154,6 +154,10 @@ class Business {
   onPeerStreamReceived() {
     return (call, stream) => {
       const callerId = call.peer;
+
+      if (this.peers.has(callerId)) {
+        return;
+      }
 
       this.addVideoSream(callerId, stream);
 
