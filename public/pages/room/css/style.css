@@ -4,13 +4,9 @@
 }
 
 .main__left {
-  flex: 0.8;
+  flex: 0 1 auto;
   display: flex;
   flex-direction: column;
-}
-
-.main__right {
-  flex: 0.2
 }
 
 .main__videos {
@@ -27,6 +23,9 @@
 }
 
 .main__right {
+  display: flex;
+  flex: 0 1 400px;
+  flex-direction: column;
   background-color: #242324;
   border-left: 1px solid #3D3D42;
 }
@@ -68,11 +67,6 @@
   justify-content: center;
 }
 
-.main__right {
-  display: flex;
-  flex-direction: column;
-}
-
 .main__header {
   padding-top: 5px;
   color: #F5F5F5;
@@ -84,9 +78,40 @@
   overflow-y: auto;
 }
 
-.messages{
+.messages {
+  padding: 6px;
   color: white;
   list-style: none;
+}
+
+.message {
+  margin-bottom: 6px;
+  padding: 6px;
+  background-color: rgba(255, 255, 255, 0.125);
+  border-radius: 4px;
+}
+
+.message > h1 {
+  font-size: 0.8em;
+  color: #c990ee;
+  margin-bottom: 2px;
+}
+
+.message.from-current-user > h1 {
+  color: #b5dcff;
+}
+
+.message > span {
+  margin-left: 6px;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  -ms-word-break: break-all;
+  word-break: break-all;
+  word-break: break-word;
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
 }
 
 .main__message_container {

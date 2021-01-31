@@ -10,6 +10,7 @@ class SocketBuilder {
 
     this.onUserConnected = () => {};
     this.onUserDisconnected = () => {};
+    this.onChatMessageReceived = () => {};
   }
 
   /**
@@ -30,6 +31,15 @@ class SocketBuilder {
     return this;
   }
 
+  /**
+   * @param {(message: string, userId: string) => void} fn
+   */
+  setOnChatMessageReceived(fn) {
+    this.onChatMessageReceived = fn;
+
+    return this;
+  }
+
   build() {
     const socket = io.connect(this.socketUrl, {
       withCredentials: false,
@@ -37,6 +47,7 @@ class SocketBuilder {
 
     socket.on('user-connected', this.onUserConnected);
     socket.on('user-disconnected', this.onUserDisconnected);
+    socket.on('chat-message-received', this.onChatMessageReceived);
 
     return socket;
   }

@@ -48,6 +48,10 @@ function onConnect(socket) {
       console.log('Disconnected', roomId, userId);
       socket.to(roomId).broadcast.emit('user-disconnected', userId);
     });
+
+    socket.on('chat-message', (message) => {
+      socket.to(roomId).broadcast.emit('chat-message-received', message, userId);
+    });
   });
 }
 

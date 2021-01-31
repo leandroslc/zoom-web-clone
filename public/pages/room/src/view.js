@@ -6,10 +6,16 @@ class View {
     this.leaveButtonElement = document.getElementById('leave');
     this.muteOrUnmuteButtonElement = document.getElementById('muteOrUnmute');
     this.playOrStopVideoButtonElement = document.getElementById('playOrStop');
+    this.chatButtonElement = document.getElementById('chat');
+    this.chatContainerElement = document.getElementById('chat_container');
+    this.chatFormElement = document.getElementById('chat_form');
+    this.chatInputElement = document.getElementById('chat_input');
+    this.chatMessagesElement = document.getElementById('chat_messages');
 
     this.recordingEnabled = false;
     this.muteEnabled = false;
     this.videoEnabled = true;
+    this.chatEnabled = true;
   }
 
   /**
@@ -117,6 +123,30 @@ class View {
   }
 
   /**
+   * @param {Object} o
+   * @param {string} o.message
+   * @param {string} o.userId
+   * @param {boolean} o.isCurrentUserId
+   */
+  addChatMessage({
+    message,
+    userId,
+    isCurrentUserId = false,
+  }) {
+    const messageElement = document.createElement('li');
+    messageElement.classList.add('message');
+    messageElement.innerHTML = `<h1>${isCurrentUserId ? 'You' : userId}</h1><span>${message}</span>`;
+
+    if (isCurrentUserId) {
+      messageElement.classList.add('from-current-user');
+    }
+
+    this.chatMessagesElement.appendChild(messageElement);
+    this.chatMessagesElement.parentElement.scrollTo(
+      0, this.chatMessagesElement.parentElement.scrollHeight);
+  }
+
+  /**
    * @param {(isEnabled: boolean) => void} command
    */
   configureRecordButton(command) {
@@ -173,6 +203,38 @@ class View {
   }
 
   /**
+   * @param {(message: string) => void} command
+   */
+  configureChatForm(command) {
+    this.chatFormElement.addEventListener('submit', (event) => {
+      event.preventDefault();
+
+      const normalizedMessage = this.chatInputElement.value
+        ? this.chatInputElement.value
+            .trim()
+            .replace('<', '&lt;')
+            .replace('>', '&gt;')
+        : '';
+
+      this.chatInputElement.value = '';
+
+      command(normalizedMessage);
+    });
+  }
+
+  configureChatButton() {
+    this._toggleChatButton(this.chatEnabled);
+
+    this.chatButtonElement.addEventListener('click', () => {
+      this.chatEnabled = !this.chatEnabled;
+
+      this.chatContainerElement.style.display = this.chatEnabled ? '' : 'none';
+
+      this._toggleChatButton(this.chatEnabled);
+    });
+  }
+
+  /**
    * @param {boolean} isRecordingEnabled
    */
   _toogleRecordingButton(isRecordingEnabled) {
@@ -203,5 +265,16 @@ class View {
 
     stopInfo.style.display = isVideoEnabled ? 'none' : '';
     playInfo.style.display = isVideoEnabled ? '' : 'none';
+  }
+
+  /**
+   * @param {boolean} isChatEnabled
+   */
+  _toggleChatButton(isChatEnabled) {
+    const openInfo = this.chatButtonElement.querySelector('.open');
+    const closedInfo = this.chatButtonElement.querySelector('.closed');
+
+    openInfo.style.display = isChatEnabled ? 'none' : '';
+    closedInfo.style.display = isChatEnabled ? '' : 'none';
   }
 }

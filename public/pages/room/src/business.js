@@ -66,12 +66,15 @@ class Business {
     this.view.configureLeaveButton(this.onRoomLeave.bind(this));
     this.view.configureMuteOrUnmuteButton(this.onMuteOrUnmuteToggle.bind(this));
     this.view.configurePlayOrStopVideoButton(this.onPlayOrStopVideoToggle.bind(this));
+    this.view.configureChatButton();
+    this.view.configureChatForm(this.onChatMessageSubmit.bind(this));
 
     this.currentStream = await this.media.getCamera();
 
     this.socket = this.socketBuilder
       .setOnUserConnected(this.onUserConnected())
       .setOnUserDisconnected(this.onUserDisconnected())
+      .setOnChatMessageReceived(this.onChatMessageReceived())
       .build();
 
     this.currentPeer = await this.peerBuilder
@@ -216,6 +219,32 @@ class Business {
     console.log('Video', isVideoEnabled ? 'enabled' : 'disabled');
 
     this.currentStream.getVideoTracks()[0].enabled = isVideoEnabled;
+  }
+
+  /**
+   * @param {string} message
+   */
+  onChatMessageSubmit(message) {
+    if (!message) {
+      return;
+    }
+
+    this.view.addChatMessage({
+      message,
+      isCurrentUserId: true,
+    });
+
+    this.socket.emit('chat-message', message);
+  }
+
+  onChatMessageReceived() {
+    return (message, userId) => {
+      this.view.addChatMessage({
+        message,
+        userId,
+        isCurrentUserId: false,
+      });
+    }
   }
 
   async onRoomLeave() {
