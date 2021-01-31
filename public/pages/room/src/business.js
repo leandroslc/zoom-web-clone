@@ -65,6 +65,7 @@ class Business {
     this.view.configureRecordButton(this.onRecordToggle.bind(this));
     this.view.configureLeaveButton(this.onRoomLeave.bind(this));
     this.view.configureMuteOrUnmuteButton(this.onMuteOrUnmuteToggle.bind(this));
+    this.view.configurePlayOrStopVideoButton(this.onPlayOrStopVideoToggle.bind(this));
 
     this.currentStream = await this.media.getCamera();
 
@@ -206,6 +207,15 @@ class Business {
     console.log('Audio', isMuted ? 'muted' : 'unmuted');
 
     this.currentStream.getAudioTracks()[0].enabled = !isMuted;
+  }
+
+  /**
+   * @param {boolean} isVideoEnabled
+   */
+  onPlayOrStopVideoToggle(isVideoEnabled) {
+    console.log('Video', isVideoEnabled ? 'enabled' : 'disabled');
+
+    this.currentStream.getVideoTracks()[0].enabled = isVideoEnabled;
   }
 
   async onRoomLeave() {

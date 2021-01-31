@@ -5,8 +5,11 @@ class View {
     this.recordingButtonElement = document.getElementById('record');
     this.leaveButtonElement = document.getElementById('leave');
     this.muteOrUnmuteButtonElement = document.getElementById('muteOrUnmute');
+    this.playOrStopVideoButtonElement = document.getElementById('playOrStop');
+
     this.recordingEnabled = false;
     this.muteEnabled = false;
+    this.videoEnabled = true;
   }
 
   /**
@@ -153,6 +156,21 @@ class View {
   }
 
   /**
+   * @param {(isVideoEnabled: boolean) => void} command
+   */
+  configurePlayOrStopVideoButton(command) {
+    this._togglePlayOrStopVideoButton(this.videoEnabled);
+
+    this.playOrStopVideoButtonElement.addEventListener('click', () => {
+      this.videoEnabled = !this.videoEnabled;
+
+      command(this.videoEnabled);
+
+      this._togglePlayOrStopVideoButton(this.videoEnabled);
+    });
+  }
+
+  /**
    * @param {boolean} isRecordingEnabled
    */
   _toogleRecordingButtonColor(isRecordingEnabled) {
@@ -168,5 +186,16 @@ class View {
 
     muteInfo.style.display = isMuted ? 'none' : '';
     unmuteInfo.style.display = isMuted ? '' : 'none';
+  }
+
+  /**
+   * @param {boolean} isVideoEnabled
+   */
+  _togglePlayOrStopVideoButton(isVideoEnabled) {
+    const stopInfo = this.playOrStopVideoButtonElement.querySelector('.stop');
+    const playInfo = this.playOrStopVideoButtonElement.querySelector('.play');
+
+    stopInfo.style.display = isVideoEnabled ? 'none' : '';
+    playInfo.style.display = isVideoEnabled ? '' : 'none';
   }
 }
