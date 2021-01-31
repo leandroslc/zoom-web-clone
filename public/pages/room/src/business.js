@@ -1,4 +1,5 @@
 /// <reference path="media.js" />
+/// <reference path="dowloader.js" />
 /// <reference path="view.js" />
 /// <reference path="socket-builder.js" />
 /// <reference path="peer-builder.js" />
@@ -13,6 +14,16 @@
  */
 
 class Business {
+  /**
+   * @type {Map<string, Object>}
+   */
+  peers;
+
+  /**
+   * @type {Map<string, Recorder>}
+   */
+  userRecordings;
+
   /**
    * @param {BusinessDependencies} o
    */
@@ -52,6 +63,7 @@ class Business {
 
   async _initialize() {
     this.view.configureRecordButton(this.onRecordToggle.bind(this));
+    this.view.configureLeaveButton(this.onRoomLeave.bind(this));
 
     this.currentStream = await this.media.getCamera();
 
@@ -182,12 +194,30 @@ class Business {
     }
   }
 
+  async onRoomLeave() {
+    const downloader = new Downloader();
+
+    this.userRecordings.forEach((recorder) => {
+      recorder
+        .getFilesForDownload()
+        .forEach(({ filename, blob }) => {
+          downloader.addFile({
+            blob,
+            filename,
+            directory: recorder.id,
+          });
+        });
+    });
+
+    await downloader.download();
+  }
+
   /**
    * @param {string} userOrRecordingId
    */
-  stopAllRecordings(recordingId) {
+  stopAllRecordings(userOrRecordingId) {
     for (const [id, recorder] of this.userRecordings) {
-      const isCurrentUser = id.includes(recordingId);
+      const isCurrentUser = id.includes(userOrRecordingId);
 
       if (!isCurrentUser) {
         continue;
@@ -197,7 +227,23 @@ class Business {
         continue;
       }
 
-      recorder.stopRecording();
+      recorder.stopRecording()
+        .then(() => this.playRecordings(id));
     }
+  }
+
+  /**
+   * @param {string} recordingId
+   */
+  playRecordings(recordingId) {
+    const userRecording = this.userRecordings.get(recordingId);
+    const videoURLs = userRecording.getAllVideoURLs();
+
+    videoURLs.forEach(url => {
+      this.view.renderVideo({
+        url,
+        userId: recordingId,
+      });
+    });
   }
 }

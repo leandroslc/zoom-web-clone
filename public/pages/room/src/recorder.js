@@ -1,6 +1,6 @@
-const CommonRecorderVideoTypes = [
-  'video/webm',
-];
+const CommonRecorderVideoTypes = {
+  'video/webm': '.webm',
+};
 
 const CommonRecorderCodecs = [
   'codecs=vp9,opus',
@@ -8,9 +8,14 @@ const CommonRecorderCodecs = [
   '',
 ];
 
-const CommonMediaRecorderContentTypes = CommonRecorderVideoTypes
-  .map(type => CommonRecorderCodecs
-    .map(codec => `${type}${codec ? ';' + codec : ''}`))
+const CommonMediaRecorderContentTypes = Object.entries(CommonRecorderVideoTypes)
+  .map(([type, extension]) => CommonRecorderCodecs
+    .map(codec => {
+      return {
+        type: `${type}${codec ? ';' + codec : ''}`,
+        extension,
+      };
+    }))
   .reduce((accumulator, current) => accumulator.concat(current), []);
 
 class Recorder {
@@ -24,15 +29,19 @@ class Recorder {
     this.stream = stream;
 
     this.id = `${userName}-${Date.now()}`;
+    this.supportedMediaRecorderType = this._getSupportedMediaRecorderType();
+
     this.mediaRecorder = {};
     this.recordedBlobs = [];
     this.completeRecordings = [];
     this.recordingActive = false;
+
+    this.resolveOnClose = null;
   }
 
-  _getMediaRecorderOptions() {
+  _getSupportedMediaRecorderType() {
     const supportMediaRecorderType = CommonMediaRecorderContentTypes
-      .find(type => MediaRecorder.isTypeSupported(type));
+      .find(({ type }) => MediaRecorder.isTypeSupported(type));
 
     if (!supportMediaRecorderType) {
       throw new Error(`None of the following codecs are supported: "${
@@ -40,8 +49,12 @@ class Recorder {
       }"`);
     }
 
+    return supportMediaRecorderType;
+  }
+
+  _getMediaRecorderOptions() {
     return {
-      mimeType: supportMediaRecorderType,
+      mimeType: this.supportedMediaRecorderType.type,
     };
   }
 
@@ -60,6 +73,11 @@ class Recorder {
 
       this.completeRecordings.push([...this.recordedBlobs]);
       this.recordedBlobs = [];
+
+      if (this.resolveOnClose) {
+        this.resolveOnClose();
+        this.resolveOnClose = null;
+      }
     };
 
     this.mediaRecorder.ondataavailable = (event) => {
@@ -87,7 +105,47 @@ class Recorder {
 
     console.log('Recording stopped', this.userName);
 
+    const promise = new Promise(resolve => this.resolveOnClose = resolve);
+
     this.mediaRecorder.stop();
     this.recordingActive = false;
+
+    return promise;
+  }
+
+  getAllVideoURLs() {
+    return this.completeRecordings.map(
+      recording => this._createBlobUrl(recording));
+  }
+
+  getFilesForDownload() {
+    if (!this.completeRecordings.length) {
+      return [];
+    }
+
+    return this.completeRecordings.map((recording) => {
+      return {
+        filename: `${this.id}${this.supportedMediaRecorderType.extension}`,
+        blob: this._createBuffer(recording),
+      };
+    });
+  }
+
+  /**
+   * @param {BlobPart} recording
+   */
+  _createBuffer(recording) {
+    return new Blob(recording, {
+      type: this.supportedMediaRecorderType.type,
+    });
+  }
+
+  /**
+   * @param {BlobPart} recording
+   */
+  _createBlobUrl(recording) {
+    const buffer = this._createBuffer(recording);
+
+    return window.URL.createObjectURL(buffer);
   }
 }

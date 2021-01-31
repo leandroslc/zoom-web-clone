@@ -1,6 +1,9 @@
+const HomePageURL = '/pages/home';
+
 class View {
   constructor() {
     this.recordingButtonElement = document.getElementById('record');
+    this.leaveButtonElement = document.getElementById('leave');
     this.recordingEnabled = false;
   }
 
@@ -104,20 +107,24 @@ class View {
    * @param {(isEnabled: boolean) => void} command
    */
   configureRecordButton(command) {
-    this.recordingButtonElement.addEventListener('click', this._onRecordClick(command));
-  }
-
-  /**
-   * @param {(isEnabled: boolean) => void} command
-   */
-  _onRecordClick(command) {
-    return () => {
+    this.recordingButtonElement.addEventListener('click', () => {
       this.recordingEnabled = !this.recordingEnabled;
 
       command(this.recordingEnabled);
 
       this._toogleRecordingButtonColor(this.recordingEnabled);
-    };
+    });
+  }
+
+  /**
+   * @param {() => Promise<void>} command
+   */
+  configureLeaveButton(command) {
+    this.leaveButtonElement.addEventListener('click', async () => {
+      await command();
+
+      window.location = HomePageURL;
+    });
   }
 
   /**

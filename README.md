@@ -3,7 +3,7 @@
 - Simple video chat using WebRTC with a peer server.
 - Real-time user connection management.
 - Audio and video chat recording.
-- Download of recorded videos.
+- Download of recorded videos (as one zip file containing all videos).
 - Home page to start or join a meeting (with a working clock and a simple list of recent enrolled meetings).
 
 
@@ -13,6 +13,10 @@ Supported browsers should:
 - [Support _Media Devices_](https://caniuse.com/mdn-api_mediadevices_getusermedia).
 - [Support _WebRTC_](https://caniuse.com/?search=webrtc).
 - [Support _Media Recorder_](https://caniuse.com/?search=media%20recorder).
+
+
+## Known Issues
+- It is necessary to always allow popups on the browser for this site.
 
 
 ## Credits
