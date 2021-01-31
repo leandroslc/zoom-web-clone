@@ -243,6 +243,7 @@ class Business {
       this.view.renderVideo({
         url,
         userId: recordingId,
+        isRecording: true,
       });
     });
   }

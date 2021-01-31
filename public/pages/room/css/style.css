@@ -122,23 +122,36 @@ video{
   border-radius: 5px;
 }
 
-.wrapper{
-  position: relative
+.wrapper {
+  position: relative;
+  margin: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.65);
 }
 
-.wrapper video{
+.wrapper video {
   position: relative;
   z-index: 100;
 }
 
-.wrapper div{
+.wrapper div {
   position: absolute;
   display: block;
   z-index: 150;
   left: 10px;
   bottom: 10px;
   color: white;
+  font-size: 0.9em;
   background-color: black;
+}
+
+.wrapper div > .rec {
+  color: #fa8072;
+  font-size: 1.1em;
+  font-weight: 700;
+}
+
+.wrapper.rec {
+  border: 1px solid #fa8072;
 }
 
 .disabled {

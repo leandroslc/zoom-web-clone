@@ -39,6 +39,7 @@ class View {
    * @param {string} o.url
    * @param {boolean} o.isCurrentUserId
    * @param {boolean} o.muted
+   * @param {boolean} o.isRecording
    */
   renderVideo({
     userId,
@@ -46,6 +47,7 @@ class View {
     url = null,
     isCurrentUserId = false,
     muted = true,
+    isRecording = false,
   }) {
     const video = this.createVideoElement({
       src: url,
@@ -57,6 +59,7 @@ class View {
       userId,
       videoElement: video,
       isCurrentUserId,
+      isRecording,
     });
   }
 
@@ -65,11 +68,13 @@ class View {
    * @param {string} o.userId
    * @param {HTMLVideoElement} o.videoElement
    * @param {boolean} o.isCurrentUserId
+   * @param {boolean} o.isRecording
    */
   appendToHTMLTree({
     userId,
     videoElement,
     isCurrentUserId,
+    isRecording,
   }) {
     const wrapperElement = document.createElement('div');
     wrapperElement.id = userId;
@@ -82,6 +87,11 @@ class View {
 
     const videoGridElement = document.getElementById('video-grid');
     videoGridElement.append(wrapperElement);
+
+    if (isRecording) {
+      wrapperElement.classList.add('rec');
+      userIdElement.innerHTML = '<span class="rec">rec</span> ' + userIdElement.innerHTML;
+    }
   }
 
   /**
@@ -131,6 +141,6 @@ class View {
    * @param {boolean} isRecordingEnabled
    */
   _toogleRecordingButtonColor(isRecordingEnabled) {
-    this.recordingButtonElement.style.color = isRecordingEnabled ? 'red' : 'white';
+    this.recordingButtonElement.style.color = isRecordingEnabled ? 'red' : '';
   }
 }
