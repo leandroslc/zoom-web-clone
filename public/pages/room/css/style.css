@@ -106,16 +106,9 @@
 }
 
 #video-grid{
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   justify-content: center;
-  flex-wrap: wrap;
-}
-
-video{
-  height: 300px;
-  width: 400px;
-  object-fit: cover;
-  padding: 8px;
 }
 
 .share-screen {
@@ -131,13 +124,18 @@ video{
 
 .wrapper {
   position: relative;
+  display: flex;
   margin: 6px;
   border: 1px solid rgba(255, 255, 255, 0.65);
+  align-items: center;
+  overflow: hidden;
 }
 
 .wrapper video {
-  position: relative;
   z-index: 100;
+  height: auto;
+  width: 100%;
+  padding: 8px;
 }
 
 .wrapper div {
