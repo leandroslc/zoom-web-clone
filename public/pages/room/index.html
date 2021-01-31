@@ -29,10 +29,16 @@
         <div id="video-grid"></div>
       </div>
       <div class="main__controls ">
-        <div class="main__controls__block disabled">
-          <div class="main__controls__button main__mute_button">
-            <i class="fas fa-microphone"></i>
-            <span>Mute</span>
+        <div class="main__controls__block">
+          <div id="muteOrUnmute" class="main__controls__button main__mute_button">
+            <div class="unmute">
+              <i class="fas fa-microphone-slash"></i>
+              <span>Unmute</span>
+            </div>
+            <div class="mute">
+              <i class="fas fa-microphone"></i>
+              <span>Mute</span>
+            </div>
           </div>
           <div class="main__controls__button main__video_button">
             <i class="fas fa-video"></i>
@@ -49,13 +55,6 @@
             <i class="fas fa-comment-alt" title="Chat"></i>
             <span>Chat</span>
           </div>
-          <!-- <div
-            id="shareScreen"
-            class="main__controls__button btn btn-success disabled"
-          >
-            <i class="fas fa-arrow-up" title="Share Screen"></i>
-            <span>Share Screen</span>
-          </div> -->
           <div id="record" class="main__controls__button" >
             <i class="fa fa-circle-o" title="Record"></i>
             <span>Record</span>

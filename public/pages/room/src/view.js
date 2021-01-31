@@ -4,7 +4,9 @@ class View {
   constructor() {
     this.recordingButtonElement = document.getElementById('record');
     this.leaveButtonElement = document.getElementById('leave');
+    this.muteOrUnmuteButtonElement = document.getElementById('muteOrUnmute');
     this.recordingEnabled = false;
+    this.muteEnabled = false;
   }
 
   /**
@@ -136,9 +138,35 @@ class View {
   }
 
   /**
+   * @param {(isMuted: boolean) => void} command
+   */
+  configureMuteOrUnmuteButton(command) {
+    this._toggleMuteOrUnmuteButton(this.muteEnabled);
+
+    this.muteOrUnmuteButtonElement.addEventListener('click', () => {
+      this.muteEnabled = !this.muteEnabled;
+
+      command(this.muteEnabled);
+
+      this._toggleMuteOrUnmuteButton(this.muteEnabled);
+    });
+  }
+
+  /**
    * @param {boolean} isRecordingEnabled
    */
   _toogleRecordingButtonColor(isRecordingEnabled) {
     this.recordingButtonElement.style.color = isRecordingEnabled ? 'red' : '';
+  }
+
+  /**
+   * @param {boolean} isMuted
+   */
+  _toggleMuteOrUnmuteButton(isMuted) {
+    const muteInfo = this.muteOrUnmuteButtonElement.querySelector('.mute');
+    const unmuteInfo = this.muteOrUnmuteButtonElement.querySelector('.unmute');
+
+    muteInfo.style.display = isMuted ? 'none' : '';
+    unmuteInfo.style.display = isMuted ? '' : 'none';
   }
 }
