@@ -5,6 +5,7 @@
 *.ttf binary
 *.pem binary
 *.ico binary
+*.png binary
 
 *.js linguist-detectable=true
 *.html linguist-detectable=false
